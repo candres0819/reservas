@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carloscardona.tns.dao.UsuarioRepository;
 import com.carloscardona.tns.model.Usuario;
 
+/**
+ * 
+ * @author candr
+ *
+ */
 @RestController
 public class UsuarioRestController {
 
