@@ -40,9 +40,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	UsuarioRepository accountRepository;
 
 	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService());
+	}
+
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.httpBasic();
-		http.formLogin().failureUrl("/login?error").defaultSuccessUrl("/").loginPage("/login");
+		http.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").failureUrl("/login?error").and()
+				.logout().logoutSuccessUrl("/login?logout").and().exceptionHandling().accessDeniedPage("/403").and().csrf();
+
 		http.authorizeRequests().antMatchers("/console/**", "/index.html", "/home.html", "/login.html", "/").permitAll().anyRequest()
 				.authenticated();
 
@@ -52,19 +59,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.headers().frameOptions().disable();
 	}
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService());
-		System.out.println("auth: " + auth);
-		super.configure(auth);
-	}
-
 	@Bean
 	protected UserDetailsService userDetailsService() {
 		return new UserDetailsService() {
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				System.out.println("username: " + username);
 				Usuario account = accountRepository.findByUserName(username);
 				if (null != account) {
 					return new User(account.getEmail(), account.getPassword(), true, true, true, true,

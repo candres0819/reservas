@@ -114,7 +114,6 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
-	
 	/**
 	 * @return the userName
 	 */
@@ -123,7 +122,8 @@ public class Usuario {
 	}
 
 	/**
-	 * @param userName the userName to set
+	 * @param userName
+	 *            the userName to set
 	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
@@ -152,7 +152,7 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", tipoDocumento=" + tipoDocumento + ", documento=" + documento + ", email=" + email + ", nombre="
-				+ nombre + ", apellido=" + apellido + "]";
+				+ nombre + ", apellido=" + apellido + ", userName=" + userName + ", password=" + password + "]";
 	}
 
 }

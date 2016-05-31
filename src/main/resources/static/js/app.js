@@ -20,7 +20,6 @@ myApp.config(function($routeProvider, $httpProvider) {
 });
 
 myApp.controller('home', function($rootScope, $http) {
-	console.log('Auth: ' + $rootScope.authenticated);
 	var self = this;
 	$http.get('/resource/').then(function(response) {
 		self.greeting = response.data;
@@ -58,7 +57,7 @@ myApp.controller('navigation', function($rootScope, $scope, $http, $location, $r
 				"content-type" : "application/x-www-form-urlencoded"
 			}
 		}).success(function(data) {
-			authenticate(function() {
+			authenticate($scope.credentials, function() {
 				if ($rootScope.authenticated) {
 					$location.path("/");
 					$scope.error = false;
@@ -68,7 +67,7 @@ myApp.controller('navigation', function($rootScope, $scope, $http, $location, $r
 				}
 			});
 		}).error(function(data) {
-			$location.path("/login");
+			$location.path('/login');
 			$scope.error = true;
 			$rootScope.authenticated = false;
 		});

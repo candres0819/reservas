@@ -11,7 +11,6 @@ import com.carloscardona.tns.dao.UsuarioRepository;
 import com.carloscardona.tns.model.Usuario;
 
 @SpringBootApplication
-//@EnableOAuth2Sso
 public class ReservasApplication {
 
 	public static void main(String[] args) {
