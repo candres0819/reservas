@@ -21,6 +21,8 @@ public class Usuario {
 	private String email;
 	private String nombre;
 	private String apellido;
+	private String userName;
+	private String password;
 
 	/**
 	 * @return the id
@@ -112,6 +114,36 @@ public class Usuario {
 		this.apellido = apellido;
 	}
 
+	/**
+	 * @return the userName
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName
+	 *            the userName to set
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -120,7 +152,7 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", tipoDocumento=" + tipoDocumento + ", documento=" + documento + ", email=" + email + ", nombre="
-				+ nombre + ", apellido=" + apellido + "]";
+				+ nombre + ", apellido=" + apellido + ", userName=" + userName + ", password=" + password + "]";
 	}
 
 }

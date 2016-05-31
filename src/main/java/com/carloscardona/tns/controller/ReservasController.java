@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.carloscardona.tns.dao.UsuarioRepository;
 
 /**
  * 
@@ -14,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-public class UiApplication {
+public class ReservasController {
 
-	@RequestMapping("/user")
-	public Principal user(Principal user) {
-		return user;
-	}
+	@Autowired
+	UsuarioRepository usuarioRepository;
 
 	@RequestMapping("/resource")
 	public Map<String, Object> home() {
@@ -27,5 +28,10 @@ public class UiApplication {
 		model.put("id", UUID.randomUUID().toString());
 		model.put("content", "Hello World");
 		return model;
+	}
+
+	@RequestMapping("/user")
+	public Principal user(Principal user) {
+		return user;
 	}
 }

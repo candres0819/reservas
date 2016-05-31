@@ -13,4 +13,8 @@ import com.carloscardona.tns.model.Usuario;
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+	Usuario findByUserName(String username);
+
+	Usuario findByNombre(String username);
+
 }

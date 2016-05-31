@@ -1,7 +1,16 @@
-<h1>Greeting</h1>
+<h1>Bienvenido</h1>
 <div ng-show="authenticated">
 	<p>The ID is {{greeting.id}}</p>
 	<p>The content is {{greeting.content}}</p>
+
+	<div>
+		<h2>Utilidades</h2>
+		<ul>
+			<li><a href="/metrics" target="_blank">Metricas</a></li>
+			<li><a href="/console" target="_blank">Consola BD</a></li>
+			<li><a href="/actuator" target="_blank">Hal Browser</a></li>
+		</ul>
+	</div>
 </div>
 <div  ng-show="!authenticated">
 	<p>Login to see your greeting</p>
