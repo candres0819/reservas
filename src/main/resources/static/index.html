@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Reservas TNS</title>
 <link href="css/angular-bootstrap.css" rel="stylesheet">
 <style type="text/css">
@@ -12,9 +13,10 @@
 <body ng-app="app" ng-cloak class="ng-cloak">
 	<div ng-controller="navigation as nav" class="container">
 		<ul class="nav nav-pills" role="tablist">
-			<li ng-class="{active:nav.tab('home')}"><a href="#/">home</a></li>
-			<li ng-class="{active:nav.tab('navigation')}" ng-hide="authenticated"><a href="#/login">login</a></li>
-			<li ng-class="{active:nav.tab('logout')}" ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
+			<li ng-class="{active:nav.tab('home')}"><a href="#/">Inicio</a></li>
+			<li ng-class="{active:nav.tab('navigation')}" ng-hide="authenticated"><a href="#/login">Login</a></li>
+			<li ng-class="{active:nav.tab('registro')}" ng-hide="authenticated"><a href="#/registro">Registro</a></li>
+			<li ng-class="{active:nav.tab('logout')}" ng-show="authenticated"><a href="" ng-click="logout()">Salir</a></li>
 		</ul>
 	</div>
 	<div ng-view class="container">

@@ -36,6 +36,7 @@ import com.carloscardona.tns.model.Usuario;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	private String[] MATCHERS = { "/console/**", "/index.html", "/home.html", "/login.html", "/registro.html", "/" };
 	@Autowired
 	UsuarioRepository accountRepository;
 
@@ -50,8 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").failureUrl("/login?error").and()
 				.logout().logoutSuccessUrl("/login?logout").and().exceptionHandling().accessDeniedPage("/403").and().csrf();
 
-		http.authorizeRequests().antMatchers("/console/**", "/index.html", "/home.html", "/login.html", "/").permitAll().anyRequest()
-				.authenticated();
+		http.authorizeRequests().antMatchers(MATCHERS).permitAll().anyRequest().authenticated();
 
 		http.csrf().csrfTokenRepository(csrfTokenRepository());
 		http.csrf().disable();
