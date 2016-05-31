@@ -1,6 +1,7 @@
 package com.carloscardona.tns.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -40,35 +41,37 @@ public class Vuelo implements Serializable {
 	@JoinColumn(name = "destino")
 	private Aeropuerto destino;
 
+	private BigDecimal tarifa;
+	private String estado;
+
 	/**
-	 * 
-	 * @return
+	 * @return the id
 	 */
 	public Long getId() {
 		return id;
 	}
 
 	/**
-	 * 
 	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
 	/**
-	 * @return the aeropuerto
+	 * @return the aerolinea
 	 */
-	public String getAeropuerto() {
+	public String getAerolinea() {
 		return aerolinea;
 	}
 
 	/**
-	 * @param aeropuerto
-	 *            the aeropuerto to set
+	 * @param aerolinea
+	 *            the aerolinea to set
 	 */
-	public void setAeropuerto(String aeropuerto) {
-		this.aerolinea = aeropuerto;
+	public void setAerolinea(String aerolinea) {
+		this.aerolinea = aerolinea;
 	}
 
 	/**
@@ -131,6 +134,36 @@ public class Vuelo implements Serializable {
 		this.destino = destino;
 	}
 
+	/**
+	 * @return the tarifa
+	 */
+	public BigDecimal getTarifa() {
+		return tarifa;
+	}
+
+	/**
+	 * @param tarifa
+	 *            the tarifa to set
+	 */
+	public void setTarifa(BigDecimal tarifa) {
+		this.tarifa = tarifa;
+	}
+
+	/**
+	 * @return the estado
+	 */
+	public String getEstado() {
+		return estado;
+	}
+
+	/**
+	 * @param estado
+	 *            the estado to set
+	 */
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -139,7 +172,7 @@ public class Vuelo implements Serializable {
 	@Override
 	public String toString() {
 		return "Vuelo [id=" + id + ", aerolinea=" + aerolinea + ", salida=" + salida + ", llegada=" + llegada + ", origen=" + origen
-				+ ", destino=" + destino + "]";
+				+ ", destino=" + destino + ", tarifa=" + tarifa + "]";
 	}
 
 }

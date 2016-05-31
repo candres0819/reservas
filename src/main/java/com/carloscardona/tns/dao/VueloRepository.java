@@ -1,5 +1,6 @@
 package com.carloscardona.tns.dao;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -19,5 +20,7 @@ public interface VueloRepository extends JpaRepository<Vuelo, Long> {
 
 	@Query("select b from Vuelo b where b.salida between ?1 and ?2 and b.llegada between ?1 and ?2")
 	List<Vuelo> findByDatesBetween(Date departure, Date arrival);
+
+	List<Vuelo> findByTarifa(BigDecimal tarifa);
 
 }

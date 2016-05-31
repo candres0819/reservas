@@ -1,5 +1,6 @@
 package com.carloscardona.tns;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,13 +57,14 @@ public class ReservasApplicationTests {
 			// Vuelos para consulta
 			List<Vuelo> vuelos = new ArrayList<Vuelo>();
 			Vuelo vuelo;
-			for (int i = 0; i < 10; i++) {
+			for (int i = 1; i < 10; i++) {
 				vuelo = new Vuelo();
-				vuelo.setAeropuerto("JMC");
+				vuelo.setAerolinea("AVIANCA");
 				vuelo.setOrigen(aeropuertoRepository.findOne(1L));
 				vuelo.setDestino(aeropuertoRepository.findOne(2L));
 				vuelo.setSalida(new Date());
 				vuelo.setLlegada(new Date(new Date().getTime() + 300));
+				vuelo.setTarifa(new BigDecimal(1000000 * i));
 				vuelos.add(vuelo);
 			}
 			vueloRepository.save(vuelos);
@@ -105,5 +107,19 @@ public class ReservasApplicationTests {
 		for (Vuelo vuelo : vuelos) {
 			System.out.println("Vuelo:" + vuelo.toString());
 		}
+	}
+
+	@Test
+	public void consultarVueloTarifa() {
+		BigDecimal tarifa = new BigDecimal(1000000);
+		List<Vuelo> vuelos = vueloRepository.findByTarifa(tarifa);
+		for (Vuelo vuelo : vuelos) {
+			System.out.println("Vuelo:" + vuelo.toString());
+		}
+	}
+
+	@Test
+	public void consultarVueloEstado() {
+		// TODO: implements methos with enum.
 	}
 }
