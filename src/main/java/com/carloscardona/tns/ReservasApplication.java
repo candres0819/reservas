@@ -5,12 +5,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 import org.springframework.context.annotation.Bean;
 
 import com.carloscardona.tns.dao.UsuarioRepository;
 import com.carloscardona.tns.model.Usuario;
 
 @SpringBootApplication
+@EnableEurekaServer
+@EnableDiscoveryClient
 public class ReservasApplication {
 
 	public static void main(String[] args) {
