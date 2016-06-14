@@ -3,7 +3,7 @@
 
 	var myApp = angular.module('app', ['ngRoute']);
 
-	myApp.config(function($routeProvider, $httpProvider) {
+	myApp.config(function($routeProvider, $httpProvider, $provide) {
 		$routeProvider.when('/', {
 			templateUrl : 'home.html',
 			controller : 'home',
@@ -27,8 +27,19 @@
 	myApp.controller('home', function($scope, $http) {
 		$http.get('/resource/').then(function(response) {
 			$scope.greeting = response.data;
+			$('a').on('click', function(event) {
+				event.preventDefault();
+				$('.target div').hide();
+				$('.navbar-nav a').removeClass('active');
+				var element = $(this);
+				element.addClass('active');
+				$(element.attr('href')).show();
+			});
+			$('.navbar-nav li:first-child a').addClass('active');
+			$('#consultas').show();
 		});
 	});
+
 
 	myApp.controller('navigation', function($rootScope, $scope, $http, $location, $route) {
 		var self = this;
@@ -36,45 +47,10 @@
 			return $route.current && route === $route.current.controller;
 		};
 
-		var authenticate = function(credentials, callback) {
-			var headers = credentials ? {authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)} : {};
-			$http.get('user', {
-				headers : headers
-			}).then(function(response) {
-				if (response.data.name) {
-					$rootScope.authenticated = true;
-				} else {
-					$rootScope.authenticated = false;
-				}
-				callback && callback($rootScope.authenticated);
-			}, function() {
-				$rootScope.authenticated = false;
-				callback && callback(false);
-			});
-		};
-
-		authenticate();
+		LoginService.authenticate($http, $rootScope);
 		$scope.credentials = {};
 		$scope.login = function() {
-			$http.post('login', $.param($scope.credentials), {
-				headers : {
-					"content-type" : "application/x-www-form-urlencoded"
-				}
-			}).success(function(data) {
-				authenticate($scope.credentials, function() {
-					if ($rootScope.authenticated) {
-						$location.path("/");
-						$scope.error = false;
-					} else {
-						$location.path("/login");
-						$scope.error = true;
-					}
-				});
-			}).error(function(data) {
-				$location.path('/login');
-				$scope.error = true;
-				$rootScope.authenticated = false;
-			});
+			LoginService.login($http, $scope, $rootScope, $location);
 		}
 
 		$scope.logout = function() {
@@ -87,27 +63,24 @@
 		}
 	});
 
-	myApp.controller('registro', function($rootScope, $scope, $http, LoginService) {
+	myApp.controller('registro', function($http, $scope, $rootScope, $location) {
 		$scope.vm = {};
-		$scope.parametros = {};
 		$scope.register = function() {
 			$http.post('registrar', $scope.vm.user).success(function(data) {
-				console.log('data: ' + data);
 				$scope.credentials = {};
 				$scope.credentials.username = $scope.vm.user.userName;
 				$scope.credentials.password = $scope.vm.user.password;
 
-				LoginService.login($scope.credentials);
+				LoginService.login($http, $scope, $rootScope, $location);
 			}).error(function(data) {
-				console.log(data);
 				$scope.error = true;
 				$rootScope.authenticated = false;
 			});
-		}
+		};
 	});
 
-	myApp.service('LoginService', function($http, $scope, $rootScope, $location) {
-		var authenticate = function(credentials, callback) {
+	var LoginService = {
+		authenticate : function($http, $rootScope, credentials, callback) {
 			var headers = credentials ? {authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)} : {};
 			$http.get('user', {
 				headers : headers
@@ -122,15 +95,16 @@
 				$rootScope.authenticated = false;
 				callback && callback(false);
 			});
-		};
+		},
 
-		this.login = function (credentials) {
+		login : function ($http, $scope, $rootScope, $location) {
+			var credentials = $scope.credentials;
 			$http.post('login', $.param(credentials), {
 				headers : {
 					"content-type" : "application/x-www-form-urlencoded"
 				}
 			}).success(function(data) {
-				authenticate(credentials, function() {
+				LoginService.authenticate($http, $rootScope, credentials, function() {
 					if ($rootScope.authenticated) {
 						$location.path("/");
 						$scope.error = false;
@@ -145,5 +119,5 @@
 				$rootScope.authenticated = false;
 			});
 		}
-	});
+	};
 })();

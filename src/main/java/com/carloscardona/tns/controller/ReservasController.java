@@ -1,7 +1,10 @@
 package com.carloscardona.tns.controller;
 
 import java.security.Principal;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.carloscardona.tns.dao.UsuarioRepository;
+import com.carloscardona.tns.dao.VueloRepository;
 import com.carloscardona.tns.model.Usuario;
+import com.carloscardona.tns.model.Vuelo;
 
 /**
  * 
@@ -30,11 +35,24 @@ public class ReservasController {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
+	@Autowired
+	VueloRepository vueloRepository;
+
 	@RequestMapping("/resource")
 	public Map<String, Object> home(HttpServletRequest request) {
 		Principal user = request.getUserPrincipal();
+
+		Calendar cal = Calendar.getInstance();
+		Date today = cal.getTime();
+
+		cal.add(Calendar.DATE, -1);
+		Date yesterday = cal.getTime();
+
+		List<Vuelo> vuelos = vueloRepository.findByDatesBetween(yesterday, today);
+
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("id", user.getName());
+		model.put("vuelos", vuelos);
 		return model;
 	}
 

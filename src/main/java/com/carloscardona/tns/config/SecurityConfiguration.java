@@ -1,4 +1,4 @@
-package com.carloscardona.tns;
+package com.carloscardona.tns.config;
 
 import java.io.IOException;
 
@@ -32,18 +32,19 @@ import org.springframework.web.util.WebUtils;
 import com.carloscardona.tns.dao.UsuarioRepository;
 import com.carloscardona.tns.model.Usuario;
 
+/**
+ * 
+ * @author candr
+ *
+ */
 @Configuration
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private String[] MATCHERS = { "/console/**", "/index.html", "/home.html", "/login.html", "/registro.html", "/" };
+	private String[] MATCHERS = { "/console/**", "/index.html", "/home.html", "/login.html", "/registro.html", "/registrar", "/" };
+
 	@Autowired
 	UsuarioRepository accountRepository;
-
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService());
-	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -57,6 +58,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		http.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 		http.headers().frameOptions().disable();
+	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService());
 	}
 
 	@Bean
@@ -75,6 +81,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		};
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private Filter csrfHeaderFilter() {
 		return new OncePerRequestFilter() {
 			@Override
@@ -95,6 +105,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		};
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private CsrfTokenRepository csrfTokenRepository() {
 		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
 		repository.setHeaderName("X-XSRF-TOKEN");
