@@ -27,7 +27,7 @@
 	myApp.controller('home', function($scope, $http) {
 		$http.get('/resource/').then(function(response) {
 			$scope.greeting = response.data;
-			$('a').on('click', function(event) {
+			$('.navbar-nav a').on('click', function(event) {
 				event.preventDefault();
 				$('.target div').hide();
 				$('.navbar-nav a').removeClass('active');
@@ -47,17 +47,21 @@
 			return $route.current && route === $route.current.controller;
 		};
 
-		LoginService.authenticate($http, $rootScope);
 		$scope.credentials = {};
 		$scope.login = function() {
 			LoginService.login($http, $scope, $rootScope, $location);
-		}
+		};
 
 		$scope.logout = function() {
 			$http.post('logout', {}).success(function() {
+				console.log('logout');
+				$scope.credentials = {};
 				$rootScope.authenticated = false;
 				$location.path("/");
 			}).error(function(data) {
+				console.log('logout 2: ' + $scope.credentials.username);
+				$scope.credentials = {};
+				console.log('logout 2 ' + $scope.credentials);
 				$rootScope.authenticated = false;
 			});
 		}
@@ -114,6 +118,7 @@
 					}
 				});
 			}).error(function(data) {
+				console.log('Error Aut: ' + data.message);
 				$location.path('/login');
 				$scope.error = true;
 				$rootScope.authenticated = false;
