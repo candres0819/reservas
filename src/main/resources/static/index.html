@@ -2,11 +2,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Reservas TNS</title>
+<title>Vuelos TNS</title>
 <link href="css/angular-bootstrap.css" rel="stylesheet">
 <style type="text/css">
 [ng\:cloak], [ng-cloak], .ng-cloak {
 	display: none !important;
+}
+.target {
+	float: left;
+	padding-left: 15px;
+	width: 100%;
+}
+.target > div {
+	display: none;
+	float: left;
+	width: 100%;
+}
+
+.active {
+	text-decoration: none;
+	background-color: #eeeeee;
+}
+.ultilidades {
+	float: left;
+	width: 100%;
 }
 </style>
 </head>
@@ -35,7 +54,7 @@
 		</ul>
 	</div>
 	<div ng-view class="container"></div>
-	<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+	<script src="js/angular-bootstrap.js"></script>
 	<script src="js/app.js"></script>
 </body>
 </html>

@@ -1,15 +1,45 @@
+<meta charset="UTF-8">
 <h1>Bienvenido</h1>
 <div ng-show="authenticated">
 	<p>Hola, {{greeting.id}}</p>
-
-	<div>
-		<h2>Utilidades</h2>
+	<ul class="nav navbar-nav navbar-left">
+		<li><a href="#consultas">Consultas</a></li>
+		<li><a href="#reservas">Reservas</a></li>
+		<li><a href="#estado">Estados</a></li>
+	</ul>
+	<div class="target">
+		<div id="consultas">
+			<h3>Consultas</h3>
+			<table style="margin-left: 5px; width: 100%">
+				<thead>
+					<tr>
+						<th>Aerolinea</th>
+						<th>Hora salida</th>
+						<th>Hora llegada</th>
+						<th>Tarifa</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="vuelo in greeting.vuelos">
+						<td>{{vuelo.aerolinea}}</td>
+						<td>{{ vuelo.salida | date : format : timezone}}</td>
+						<td>{{ vuelo.llegada | date : format : timezone}}</td>
+						<td>{{vuelo.tarifa | currency:"COP $"}}</td>
+					</tr>
+				<tbody>
+			</table>
+		</div>
+		<div id="reservas"><h3>Reservas</h3></div>
+		<div id="estado"><h3>Estado</h3></div>
+	</div>
+	<!-- <div class="ultilidades">
+		<h3>Utilidades</h3>
 		<ul>
 			<li><a href="/metrics" target="_blank">Metricas</a></li>
 			<li><a href="/console" target="_blank">Consola BD</a></li>
 			<li><a href="/actuator" target="_blank">Hal Browser</a></li>
 		</ul>
-	</div>
+	</div> -->
 </div>
 <div  ng-show="!authenticated">
 	<p>Login to see your greeting</p>
