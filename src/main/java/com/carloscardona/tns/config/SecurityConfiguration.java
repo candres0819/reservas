@@ -25,36 +25,32 @@ import com.carloscardona.tns.model.Usuario;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private String[] MATCHERS = { "/logout**", "/index.html", "/home.html", "/login.html", "/registro.html", "/registrar", "/", "/cfrs" };
+    private final String[] MATCHERS = { "/logout**", "/index.html", "/home.html", "/login.html", "/registro.html", "/registrar", "/", "/cfrs" };
 
-	@Autowired
-	UsuarioRepository accountRepository;
+    @Autowired
+    UsuarioRepository accountRepository;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers(MATCHERS).permitAll().anyRequest().authenticated()
-			.and().formLogin().loginPage("/login").permitAll()
-			.and().logout().logoutSuccessUrl("/").permitAll();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests().antMatchers(MATCHERS).permitAll().anyRequest().authenticated().and().formLogin()
+                .loginPage("/login").permitAll().and().logout().logoutSuccessUrl("/").permitAll();
+    }
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService());
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService());
+    }
 
-	@Bean
-	protected UserDetailsService userDetailsService() {
-		return new UserDetailsService() {
-			@Override
-			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-				Usuario account = accountRepository.findByUserName(username);
-				if (null != account) {
-					return new User(account.getEmail(), account.getPassword(), true, true, true, true,
-							AuthorityUtils.createAuthorityList("USER"));
-				} else {
-					throw new UsernameNotFoundException("could not find the user '" + username + "'");
-				}
-			}
-		};
-	}
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        return username -> {
+            Usuario account = accountRepository.findByUserName(username);
+            if (null != account) {
+                return new User(account.getEmail(), account.getPassword(), true, true, true, true,
+                        AuthorityUtils.createAuthorityList("USER"));
+            } else {
+                throw new UsernameNotFoundException("could not find the user '" + username + "'");
+            }
+        };
+    }
 }

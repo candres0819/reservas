@@ -3,3 +3,6 @@
 /.mvn/
 /.classpath
 /.project
+/.idea/
+/reservas.iml
+/.gradle/
