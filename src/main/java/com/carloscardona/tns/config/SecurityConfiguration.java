@@ -25,7 +25,7 @@ import com.carloscardona.tns.model.Usuario;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private String[] MATCHERS = { "/logout**", "/index.html", "/home.html", "/login.html", "/registro.html", "/registrar", "/", "/cfrs" };
+    private final String[] MATCHERS = { "/logout**", "/index.html", "/home.html", "/login.html", "/registro.html", "/registrar", "/", "/cfrs" };
 
     @Autowired
     UsuarioRepository accountRepository;
@@ -43,16 +43,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     protected UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                Usuario account = accountRepository.findByUserName(username);
-                if (null != account) {
-                    return new User(account.getEmail(), account.getPassword(), true, true, true, true,
-                            AuthorityUtils.createAuthorityList("USER"));
-                } else {
-                    throw new UsernameNotFoundException("could not find the user '" + username + "'");
-                }
+        return username -> {
+            Usuario account = accountRepository.findByUserName(username);
+            if (null != account) {
+                return new User(account.getEmail(), account.getPassword(), true, true, true, true,
+                        AuthorityUtils.createAuthorityList("USER"));
+            } else {
+                throw new UsernameNotFoundException("could not find the user '" + username + "'");
             }
         };
     }
