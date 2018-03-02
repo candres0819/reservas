@@ -24,7 +24,7 @@ import com.carloscardona.tns.model.Vuelo;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ReservasApplication.class)
 @WebAppConfiguration
-public class ReservasApplicationTests {
+class ReservasApplicationTests {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
@@ -55,7 +55,7 @@ public class ReservasApplicationTests {
 			}
 
 			// Vuelos para consulta
-			List<Vuelo> vuelos = new ArrayList<Vuelo>();
+			List<Vuelo> vuelos = new ArrayList<>();
 			Vuelo vuelo;
 			for (int i = 1; i < 10; i++) {
 				vuelo = new Vuelo();
@@ -81,7 +81,7 @@ public class ReservasApplicationTests {
 	public void createUser() {
 		Usuario usuario = new Usuario();
 		usuario.setTipoDocumento("CC");
-		usuario.setDocumento(new Long(1152197588));
+		usuario.setDocumento(1152197588L);
 		usuario.setEmail("candres0819@gmail.com");
 		usuario.setNombre("Carlos Andrés");
 		usuario.setApellido("Cardona");
@@ -90,13 +90,15 @@ public class ReservasApplicationTests {
 		Assert.notNull(usuarioRepository.save(usuario));
 	}
 
-	@Test
-	public void consultarVuelos() {
-		List<Vuelo> vuelos = vueloRepository.findAll();
-		for (Vuelo vuelo : vuelos) {
-			System.out.println("Vuelo:" + vuelo.toString());
-		}
-	}
+// --Commented out by Inspection START (2/03/2018 1:57 AM):
+//	@Test
+//	public void consultarVuelos() {
+//		List<Vuelo> vuelos = vueloRepository.findAll();
+//		for (Vuelo vuelo : vuelos) {
+//			System.out.println("Vuelo:" + vuelo.toString());
+//		}
+//	}
+// --Commented out by Inspection STOP (2/03/2018 1:57 AM)
 
 	@Test
 	public void consultarVueloHorario() {

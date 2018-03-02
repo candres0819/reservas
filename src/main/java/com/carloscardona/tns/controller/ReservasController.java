@@ -54,7 +54,7 @@ public class ReservasController {
 
 		List<Vuelo> vuelos = vueloRepository.findByDatesBetween(yesterday, today);
 
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("id", user.getName());
 		model.put("vuelos", vuelos);
 		return model;
@@ -74,12 +74,12 @@ public class ReservasController {
 	public ResponseEntity<Void> registrar(@RequestBody Usuario user, UriComponentsBuilder ucBuilder) {
 		System.out.println(user.toString());
 		if (isUserExist(user)) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		usuarioRepository.save(user);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/usuario/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<>(headers, HttpStatus.CREATED);
 	}
 
 	private boolean isUserExist(Usuario user) {

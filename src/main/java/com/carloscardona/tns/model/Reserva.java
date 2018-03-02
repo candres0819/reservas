@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-public class Reserva implements Serializable {
+class Reserva implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -102,10 +102,7 @@ public class Reserva implements Serializable {
 			return false;
 		}
 		Reserva other = (Reserva) object;
-		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-			return false;
-		}
-		return true;
+		return (this.id != null || other.id == null) && (this.id == null || this.id.equals(other.id));
 	}
 
 	@Override
