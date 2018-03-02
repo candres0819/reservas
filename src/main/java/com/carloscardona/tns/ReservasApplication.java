@@ -23,68 +23,68 @@ import com.carloscardona.tns.model.Vuelo;
 @SpringBootApplication
 public class ReservasApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ReservasApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ReservasApplication.class, args);
+    }
 
-	@Bean
-	CommandLineRunner runner(UsuarioRepository usuarioRepository, AeropuertoRepository aeropuertoRepository,
-			VueloRepository vueloRepository) {
-		return new CommandLineRunner() {
-			@Override
-			public void run(String... arg0) throws Exception {
-				Usuario usuario = new Usuario();
-				usuario.setTipoDocumento("CC");
-				usuario.setDocumento(new Long(1152197588));
-				usuario.setEmail("candres0819@gmail.com");
-				usuario.setNombre("Carlos Andrés");
-				usuario.setApellido("Cardona");
-				usuario.setUserName("candres");
-				usuario.setPassword("1234");
-				usuarioRepository.save(usuario);
+    @Bean
+    CommandLineRunner runner(UsuarioRepository usuarioRepository, AeropuertoRepository aeropuertoRepository,
+            VueloRepository vueloRepository) {
+        return new CommandLineRunner() {
+            @Override
+            public void run(String... arg0) throws Exception {
+                Usuario usuario = new Usuario();
+                usuario.setTipoDocumento("CC");
+                usuario.setDocumento(new Long(1152197588));
+                usuario.setEmail("candres0819@gmail.com");
+                usuario.setNombre("Carlos Andrés");
+                usuario.setApellido("Cardona");
+                usuario.setUserName("candres");
+                usuario.setPassword("1234");
+                usuarioRepository.save(usuario);
 
-				// Aeropuertos
-				Aeropuerto aeropuerto = new Aeropuerto();
-				aeropuerto.setNombre("JMC");
-				aeropuerto.setCiudad("Medellín");
-				aeropuertoRepository.save(aeropuerto);
+                // Aeropuertos
+                Aeropuerto aeropuerto = new Aeropuerto();
+                aeropuerto.setNombre("JMC");
+                aeropuerto.setCiudad("Medellín");
+                aeropuertoRepository.save(aeropuerto);
 
-				aeropuerto = new Aeropuerto();
-				aeropuerto.setNombre("Dorado");
-				aeropuerto.setCiudad("Bogotá");
-				aeropuertoRepository.save(aeropuerto);
+                aeropuerto = new Aeropuerto();
+                aeropuerto.setNombre("Dorado");
+                aeropuerto.setCiudad("Bogotá");
+                aeropuertoRepository.save(aeropuerto);
 
-				// Vuelos para consulta
-				List<Vuelo> vuelos = new ArrayList<Vuelo>();
-				Vuelo vuelo;
-				for (int i = 1; i < 10; i++) {
-					vuelo = new Vuelo();
-					vuelo.setAerolinea("AVIANCA");
-					vuelo.setOrigen(aeropuertoRepository.findOne(1L));
-					vuelo.setDestino(aeropuertoRepository.findOne(2L));
-					Calendar cal = Calendar.getInstance();
-					if (i % 2 == 0) {
-						Date today = cal.getTime();
-						vuelo.setSalida(today);
-						vuelo.setLlegada(new Date(today.getTime() + 300));
-					} else {
-						cal.add(Calendar.DATE, -1);
-						Date yesterday = cal.getTime();
-						vuelo.setSalida(yesterday);
-						vuelo.setLlegada(new Date(yesterday.getTime() + 300));
-					}
-					vuelo.setTarifa(new BigDecimal(1000000 * i));
-					vuelos.add(vuelo);
-				}
-				vueloRepository.save(vuelos);
-			}
-		};
-	}
+                // Vuelos para consulta
+                List<Vuelo> vuelos = new ArrayList<Vuelo>();
+                Vuelo vuelo;
+                for (int i = 1; i < 10; i++) {
+                    vuelo = new Vuelo();
+                    vuelo.setAerolinea("AVIANCA");
+                    vuelo.setOrigen(aeropuertoRepository.findOne(1L));
+                    vuelo.setDestino(aeropuertoRepository.findOne(2L));
+                    Calendar cal = Calendar.getInstance();
+                    if (i % 2 == 0) {
+                        Date today = cal.getTime();
+                        vuelo.setSalida(today);
+                        vuelo.setLlegada(new Date(today.getTime() + 300));
+                    } else {
+                        cal.add(Calendar.DATE, -1);
+                        Date yesterday = cal.getTime();
+                        vuelo.setSalida(yesterday);
+                        vuelo.setLlegada(new Date(yesterday.getTime() + 300));
+                    }
+                    vuelo.setTarifa(new BigDecimal(1000000 * i));
+                    vuelos.add(vuelo);
+                }
+                vueloRepository.save(vuelos);
+            }
+        };
+    }
 
-	@Bean
-	ServletRegistrationBean h2servletRegistration() {
-		ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-		registrationBean.addUrlMappings("/console/*");
-		return registrationBean;
-	}
+    @Bean
+    ServletRegistrationBean h2servletRegistration() {
+        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
+        registrationBean.addUrlMappings("/console/*");
+        return registrationBean;
+    }
 }
